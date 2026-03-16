@@ -15,6 +15,11 @@ sealed class PatientCondition {
         val name: String,
         val symptoms: String,
     ): PatientCondition()
+
+    data class UnderObservation(
+        val wardNumber: Int
+    ): PatientCondition()
+
 }
 
 fun triagePatient(condition: PatientCondition): String {
@@ -22,6 +27,17 @@ fun triagePatient(condition: PatientCondition): String {
         is PatientCondition.Critical -> "EMERGENCY: ${condition.name} needs immediate attention. Surgery required: ${condition.requiresSurgery}"
         is PatientCondition.Moderate -> "${condition.name} will be attended to in ${condition.waitingTime} minutes. Reported issue: ${condition.symptoms}"
         is PatientCondition.Minor -> "${condition.name} has been registered. Please wait in the waiting bay."
+        is PatientCondition.UnderObservation -> "The patient is under observation in ward ${condition.wardNumber}."
+    }
+}
+
+fun getQueuePriority(condition: PatientCondition): Int {
+    // Critical = 1, Moderate = 2, UnderObservation = 3, Minor = 4
+    return when (condition) {
+        is PatientCondition.Critical -> 1
+        is PatientCondition.Moderate -> 2
+        is PatientCondition.UnderObservation -> 3
+        is PatientCondition.Minor -> 4
     }
 }
 
@@ -46,10 +62,16 @@ fun main() {
         PatientCondition.Minor(
             "Bridget Sunders",
             "Headache, fever"
+        ),
+
+        PatientCondition.UnderObservation(
+            wardNumber = 4
         )
     )
 
-    patients.forEach { patient ->
+    val sorted = patients.sortedBy { getQueuePriority(it) }
+
+    sorted.forEach { patient ->
         println(triagePatient(patient))
     }
 }
