@@ -12,7 +12,7 @@ sealed class PaymentMethod {
 
     data class CreditCard (
         val cardNumber: String,
-        val expriryDate: String
+        val expiryDate: String
     ): PaymentMethod()
 }
 
