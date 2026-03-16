@@ -17,6 +17,8 @@ sealed class PatientCondition {
     ): PatientCondition()
 
     data class UnderObservation(
+        val name: String,
+        val symptoms: String,
         val wardNumber: Int
     ): PatientCondition()
 
@@ -24,15 +26,18 @@ sealed class PatientCondition {
 
 fun triagePatient(condition: PatientCondition): String {
     return when (condition) {
-        is PatientCondition.Critical -> "EMERGENCY: ${condition.name} needs immediate attention. Surgery required: ${condition.requiresSurgery}"
-        is PatientCondition.Moderate -> "${condition.name} will be attended to in ${condition.waitingTime} minutes. Reported issue: ${condition.symptoms}"
-        is PatientCondition.Minor -> "${condition.name} has been registered. Please wait in the waiting bay."
-        is PatientCondition.UnderObservation -> "The patient is under observation in ward ${condition.wardNumber}."
+        is PatientCondition.Critical ->
+            "EMERGENCY: ${condition.name} needs immediate attention. Surgery required: ${condition.requiresSurgery}"
+        is PatientCondition.Moderate ->
+            "${condition.name} will be attended to in ${condition.waitingTime} minutes. Reported issue: ${condition.symptoms}"
+        is PatientCondition.Minor ->
+            "${condition.name} has been registered. Please wait in the waiting bay."
+        is PatientCondition.UnderObservation ->
+            "${condition.name} is under observation in ward ${condition.wardNumber}. Reason: ${condition.symptoms}"
     }
 }
 
 fun getQueuePriority(condition: PatientCondition): Int {
-    // Critical = 1, Moderate = 2, UnderObservation = 3, Minor = 4
     return when (condition) {
         is PatientCondition.Critical -> 1
         is PatientCondition.Moderate -> 2
@@ -41,11 +46,6 @@ fun getQueuePriority(condition: PatientCondition): Int {
     }
 }
 
-//Stretch Goals (once the basics work)
-//
-//Add a 4th condition UnderObservation with a wardNumber and see how the compiler guides you to handle it everywhere
-//Write a function getQueuePriority() that returns an Int (1 = most urgent) based on condition type
-//Create a list of 5 patients in mixed order and sort them by priority before printing
 
 fun main() {
     val patients = listOf(
@@ -65,6 +65,8 @@ fun main() {
         ),
 
         PatientCondition.UnderObservation(
+            name="James Buzzelndine",
+            "Coughing, high fever, weight loss, jaundice",
             wardNumber = 4
         )
     )
