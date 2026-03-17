@@ -40,6 +40,16 @@ class PaymentMethodTest {
     }
 
     @Test
+    fun test_bank_transfer_can_handle_negative_amount() {
+        amount = -1500.0
+        val result = processPayment(amount=amount, method=bankTransfer)
+        assertEquals(
+            "Transferring KES $amount to $accountNumber at $bankName",
+            result
+        )
+    }
+
+    @Test
     fun test_credit_card_returns_the_correct_message() {
         val result = processPayment(amount=amount, method=creditCard)
         assertEquals(
@@ -49,7 +59,29 @@ class PaymentMethodTest {
     }
 
     @Test
+    fun test_process_payment_can_handle_wrong_credit_numbers() {
+        cardNumber = "444"
+        creditCard = PaymentMethod.CreditCard(cardNumber = cardNumber, expiryDate = expiryDate)
+        val result = processPayment(amount=amount, method=creditCard)
+        assertEquals(
+            "Invalid card number: ${creditCard.cardNumber}",
+            result
+        )
+    }
+
+    @Test
     fun test_mobile_money_returns_the_correct_message() {
+        val result = processPayment(amount=amount, method=mobileMoney)
+        assertEquals(
+            "Sending KES $amount via $provider to $phoneNumber",
+            result
+        )
+    }
+
+    @Test
+    fun test_process_payment_can_handle_empty_phone_number() {
+        phoneNumber = ""
+        mobileMoney = PaymentMethod.MobileMoney(phoneNumber = phoneNumber, provider = provider)
         val result = processPayment(amount=amount, method=mobileMoney)
         assertEquals(
             "Sending KES $amount via $provider to $phoneNumber",
