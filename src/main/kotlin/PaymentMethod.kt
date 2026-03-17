@@ -24,7 +24,7 @@ fun processPayment(amount: Double, method: PaymentMethod): String {
             // We get smart cast here — Kotlin KNOWS it's a CreditCard
             // so we can access .cardNumber directly, no casting needed
             // Handle too short credit card
-            if (method.cardNumber.length != 15) {
+            if (method.cardNumber.length !in 13..19) {
                 "Invalid card number: ${method.cardNumber}"
             }
             else {
