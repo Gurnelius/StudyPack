@@ -35,7 +35,11 @@ fun processPayment(amount: Double, method: PaymentMethod): String {
             "Sending KES $amount via ${method.provider} to ${method.phoneNumber}"
         }
         is PaymentMethod.BankTransfer -> {
-            "Transferring KES $amount to ${method.accountNumber} at ${method.bankName}"
+            if (amount < 1) {
+                "Amount must be greater than zero."
+            } else {
+                "Transferring KES $amount to ${method.accountNumber} at ${method.bankName}"
+            }
         }
         // No else needed — the compiler KNOWS these are the only 3 options
         // If you add a 4th subclass later, this will fail to compile until you handle it

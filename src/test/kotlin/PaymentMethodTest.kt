@@ -41,12 +41,16 @@ class PaymentMethodTest {
 
     @Test
     fun test_bank_transfer_can_handle_negative_amount() {
-        amount = -1500.0
-        val result = processPayment(amount=amount, method=bankTransfer)
-        assertEquals(
-            "Transferring KES $amount to $accountNumber at $bankName",
-            result
-        )
+        val negativeAmount = -1500.0
+        val result = processPayment(amount=negativeAmount, method=bankTransfer)
+        assertEquals("Amount must be greater than zero.",result)
+    }
+
+    @Test
+    fun test_bank_transfer_can_handle_zero_amount() {
+        val zeroAmount = 0.0
+        val result = processPayment(amount=zeroAmount, method=bankTransfer)
+        assertEquals("Amount must be greater than zero.",result)
     }
 
     @Test
@@ -80,7 +84,7 @@ class PaymentMethodTest {
         val phoneNumber = ""
         val invalidMobileMoney = PaymentMethod.MobileMoney(phoneNumber = phoneNumber, provider = provider)
         val result = processPayment(amount=amount, method=invalidMobileMoney)
-        
+
         assertEquals("Sending KES $amount via $provider to $phoneNumber",result)
     }
 
