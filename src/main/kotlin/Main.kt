@@ -9,7 +9,16 @@ fun main() {
 
     println("Task:")
     task()
+
+    val names = "Joyce, Killian, Julius, Joel"
+    val list = names.split(",")
+    val join = list.joinToString(" | ")
+
+    println("the quick brown fox".toTitleCase())
 }
+
+fun String.toTitleCase(): String =
+    split(" ").joinToString(" ") { it.replaceFirstChar { it.uppercase() } }
 
 fun String.countVowels(): Int {
     var count = 0

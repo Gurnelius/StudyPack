@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="mockito.kotlin" type="repository">
+    <properties maven-id="org.mockito.kotlin:mockito-kotlin:6.3.0" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/mockito-kotlin-6.3.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/mockito-core-5.23.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/byte-buddy-1.17.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/byte-buddy-agent-1.17.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/objenesis-3.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-reflect-2.1.20.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-2.1.20.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/annotations-13.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
